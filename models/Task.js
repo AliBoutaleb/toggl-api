@@ -6,18 +6,22 @@ const TaskSchema = Schema({
         type: String,
         required: true
     },
-    time: {
+    timer: {
         type: String,
         default: '00:00:00',
         required: true
     },
     dueDate: {
-        type: Date,
+        type: String,
         required: true
     },
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    project: {
+        type: Schema.Types.ObjectId,
+        ref: 'Project'
     }
 });
 

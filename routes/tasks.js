@@ -2,7 +2,9 @@ const router = require('express').Router();
 const bodyParser = require('body-parser');
 
 module.exports = (server) => {
+
     router.get('/',
+        server.middlewares.ensureAuthenticated,
         server.controllers.tasks.list
     );
 
@@ -18,11 +20,6 @@ module.exports = (server) => {
     router.put('/:id',
         server.middlewares.bodyParser.json(),
         server.controllers.tasks.update);
-
-    router.post('/', function(req, res){
-        res.body('test'),
-        console.log('task');
-    });
 
     return router;
 };

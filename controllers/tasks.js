@@ -29,7 +29,7 @@ module.exports = (server) => {
         function addToUser(task) {
             return User.findById(req.token.userId)
                 .then(user => {
-                    user.tasks.push(task);
+                    user.tasks.$pushAll(task);
                     return user.save();
                 })
                 .then(user => {return task;});

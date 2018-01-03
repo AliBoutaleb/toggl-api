@@ -5,8 +5,33 @@ module.exports = (server) => {
     const User = server.models.User;
 
     return {
-        login
+        login,
+        getUserByEmail
     };
+
+    function getUserByEmail(req, res, next) {
+        const email = req.body.email;
+
+        findUser()
+            .then(ensureOne)
+            .then(send)
+            .catch(err => res.status(err.code || 500).send(err.reason || err));
+
+        function findUser() {
+            return User.findOne()
+                .select()
+                .where({email: email})
+                .exec()
+        }
+
+        function ensureOne(user) {
+            return user ? user : Promise.reject({code: 404, reason: 'user.not.found'})
+        }
+
+        function send(user) {
+            res.send(user);
+        }
+    }
 
     function login(req, res, next) {
         const email = req.body.email;
