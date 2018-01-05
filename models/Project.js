@@ -20,8 +20,11 @@ const ProjectSchema = Schema({
     tasks: [{
         type: Schema.Types.ObjectId,
         ref: 'Task'
-    }]
+    }],
+    client: {
+        type: Schema.Types.ObjectId,
+        ref: 'Client'
+    }
 });
-
 
 module.exports = mongoose.model('Project', ProjectSchema);
