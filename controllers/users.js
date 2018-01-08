@@ -1,10 +1,13 @@
 const sha1 = require('sha1');
+const jwt = require('jsonwebtoken');
 
 module.exports = (server) => {
     const User = server.models.User;
 
     return {
         list,
+        getUserByID,
+        getUserByToken,
         create,
         remove,
         update
@@ -13,6 +16,18 @@ module.exports = (server) => {
     function list(req, res) {
         User.find()
             .then(users => res.send(users));
+    }
+
+    function getUserByID(req, res) {
+        User.findById(req.params.id)
+            .then(user => res.send(user));
+    }
+
+    function getUserByToken(req, res) {
+        const token = req.get('Authorization');
+        const values = jwt.verify(token, server.config.salt)
+        User.findById(values.userId)
+            .then(user => res.send(user));
     }
 
     function create(req, res) {

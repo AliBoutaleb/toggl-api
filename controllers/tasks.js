@@ -11,7 +11,7 @@ module.exports = (server) => {
         update
     };
 
-    function list(req, res) {
+    function list(req, res){
         return Task.find()
             .then(tasks => res.send(tasks));
     }
@@ -24,7 +24,6 @@ module.exports = (server) => {
             .then(addToUser)
             .then(task => res.status(201).send(task))
             .catch(error => res.status(500).send(error));
-
 
         function addToUser(task) {
             return User.findById(req.token.userId)

@@ -4,6 +4,7 @@ module.exports = (server) => {
     const router = express.Router();
 
     router.get('/',
+        server.middlewares.ensureAuthenticated,
         server.controllers.projects.list);
 
     router.post('/',

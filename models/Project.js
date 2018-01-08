@@ -11,7 +11,7 @@ const ProjectSchema = Schema({
         ref: 'User'
     },
     status: {
-        type: String,
+        type: Boolean,
     },
     members: [{
         type: Schema.Types.ObjectId,
