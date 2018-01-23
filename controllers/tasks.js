@@ -6,10 +6,16 @@ module.exports = (server) => {
 
     return {
         list,
+        getTaskByID,
         create,
         remove,
         update
     };
+
+    function getTaskByID(req, res) {
+        Task.findById(req.params.id)
+            .then(task => res.send(task));
+    }
 
     function list(req, res){
         return Task.find()
@@ -17,21 +23,16 @@ module.exports = (server) => {
     }
 
     function create(req, res) {
-        let task = new Task(req.body);
-        task.owner = req.token.userId;
-
-        task.save()
+        Task.create(req.body)
             .then(addToUser)
             .then(task => res.status(201).send(task))
-            .catch(error => res.status(500).send(error));
+            .catch(error => res.status(500).send(error))
 
         function addToUser(task) {
-            return User.findById(req.token.userId)
-                .then(user => {
-                    user.tasks.$pushAll(task);
-                    return user.save();
-                })
-                .then(user => {return task;});
+            return User.findById(req.body.owner, function (err, user) {
+                user.tasks.push(task._id)
+                user.save(function(err) {});
+            })
         }
     }
 

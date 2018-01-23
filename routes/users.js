@@ -3,9 +3,9 @@ const router = require('express').Router();
 module.exports = (server) => {
 
     // List all users
-    // router.get('/',
-    //     server.middlewares.ensureAuthenticated,
-    //     server.controllers.users.list);
+    router.get('/all',
+        server.middlewares.ensureAuthenticated,
+        server.controllers.users.list);
 
     // Get user by id
     router.get('/:id',
